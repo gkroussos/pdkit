@@ -3,15 +3,36 @@
 
 .. image:: https://readthedocs.org/projects/pdkit/badge/
     :target: https://pdkit.readthedocs.org
+    
+.. image:: https://img.shields.io/badge/license-MIT-yellowgreen
+    :target: https://github.com/pdkit/pdkit/blob/master/LICENSE
+    
+.. image:: https://img.shields.io/badge/release-1.3.2-blue
+    :target: https://pypi.org/project/pdkit/
 
 .. image:: https://zenodo.org/badge/124572011.svg
    :target: https://zenodo.org/badge/latestdoi/124572011
    
-PDKIT
+PDkit
 #####
 
+PDkit is a python module that provides a comprehensive toolkit for the management and processing of Parkinson's symptoms performance data captured by high-use-frequency smartphone apps and continuously by wearables. PDkit facilitates the application of an extensive collection of methods and techniques across all stages of the Parkinson's information processing pipeline. Although inherently flexible, PDkit currently prioritises functionalities critical to therapeutic clinical trial delivery rather than general patient care.
 
-INSTALL INSTRUCTIONS
+More information is available in the following paper:
+
+Joan Saez Pons, Cosmin Stamate, David Weston and George Roussos, *PDkit: An Open Source Data Science Toolkit for Parkinson's Disease*, UbiComp/ISWC '19 Adjunct: Adjunct Proceedings of the 2019 ACM International Joint Conference on Pervasive and Ubiquitous Computing 2019, pages 939–943. https://doi.org/10.1145/3341162.3346277
+
+An example of how PDkit is used in clinical strudies of Parkinson's can be found in:
+
+Elisa Menozzi, A. Jha, R. Oyekan, S. Schreglmann, A. Latorre, E. Mulroy, G. Roussos, C. Stamate, I. Daskalopoulos, J.C. Rothwell and K.P. Bhatia, *Smartphone software for home monitoring of motor symptoms in Parkinson's disease: The CloudUPDRS Smartphone Software in Parkinson's (CUSSP) study*, The International Congress of Parkinson's Disease and Movement Disorders, Nice, France, September 22-26. https://www.dcs.bbk.ac.uk/~gr/pdf/CUSSP.MDS2019.pdf
+
+The PDkit currently supports directly the following apps:  `cloudUPDRS <http://www.updrs.net>`_, `mPower <https://parkinsonmpower.org/>`_, `HopkinsPD <https://github.com/zad/HopkinsPD_Android>`_ and `OPDC <https://www.opdc.ox.ac.uk/opdc-smartphone-app-tests-for-early-signs-of-parkinson-s>`_.
+
+Full documentation of PDkit features is available on `readthedocs <http://pdkit.readthedocs.io/en/latest/>`_.
+
+Installation instructions and brief use examples are included below. Additional examples of PDkit use can be found in the *notebooks* directory including data file samples to help explore how the toolkit can be used.
+
+Installation Instructions
 ********************
 
 Regular install
@@ -43,8 +64,11 @@ For development install
     $ pip install -r requirements.txt
     $ pip install .
 
-TREMOR PROCESSOR
-****************
+How to Use
+************************
+
+Tremor
+=========================
 
 Example how to use pdkit to calculate tremor amplitude and frequency:
 
@@ -70,16 +94,16 @@ to extract all the features available in `Tremor Processor <http://pdkit.readthe
 
     >>> tp.extract_features(ts)
 
-BRADYKINESIA
-************
+Bradykinesia
+=========================
 
     >>> import pdkit
     >>> ts = pdkit.TremorTimeSeries().load(filename)
     >>> tp = pdkit.TremorProcessor(lower_frequency=0.0, upper_frequency=4.0)
     >>> amplitude, frequency = tp.bradykinesia(ts)
 
-GAIT
-****
+Gait
+=========================
 
 Example how to use pdkit to calculate various Gait features:
 
@@ -93,8 +117,8 @@ Example how to use pdkit to calculate various Gait features:
 
 where, `filename` is the data path to load, by default in the CloudUPDRS format.
 
-FINGER TAPPING
-**************
+Finger Tapping
+=========================
 
 Example how to use pdkit to calculate the mean alternate distance of the finger tapping tests:
 
@@ -107,8 +131,8 @@ kinesia scores (the number of key taps)
 
     >>> ftp.kinesia_scores(ts)
 
-TEST RESULT SET
-****************
+Process a full data set
+=========================
 
 Pdkit can be used to extract all the features for different measurements (i.e. tremor, finger tapping) placed in a single folder. The result
 is a `data frame` where the measurements are rows and the columns are the features extracted.
@@ -124,8 +148,8 @@ We can also write the `data frame` to a output file like:
 
     >>> testResultSet.write_output(dataframe, name)
 
-UPDRS
-****************
+Learn UPDRS scores from data
+============================
 
 Pdkit can calculate the UPDRS score for a given testResultSet.
 
@@ -144,8 +168,8 @@ To read the testResultSet data from a file. See TestResultSet class for more det
 
     >>> updrs = pdkit.UPDRS(data_frame_file_path=file_path_to_testResultSet_file)
 
-Clinical UPDRS
-****************
+Learn UPDRS from clinical scores
+========================================
 
 Pdkit uses the clinical data to calculates classifiers implementing the k-nearest neighbors vote.
 
